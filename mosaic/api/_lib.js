@@ -14,7 +14,7 @@ function isEasingCurve(value) {
 }
 
 function directionPrompt({ description = '', feelings = [], filenames = [], refinementText = '' }) {
-  return `You are Mosaic, an AI visual-direction engine for moodboards. Read the project context below and produce ONE cohesive visual direction as strict JSON. Be specific to this exact brief; avoid generic default answers.
+  return `You are Mosaik, an AI visual-direction engine for moodboards. Read the project context below and produce ONE cohesive visual direction as strict JSON. Be specific to this exact brief; avoid generic default answers.
 
 PROJECT DESCRIPTION:
 """${description}"""

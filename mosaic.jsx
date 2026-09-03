@@ -146,7 +146,7 @@ async function searchUnsplash(apiKey, query) {
 function directionPrompt({ description, feelings, filenames, refine }) {
   const feelingsLine = feelings.length ? feelings.join(", ") : "unspecified";
   const filesLine = filenames.length ? filenames.join(", ") : "none";
-  return `You are Mosaic, an AI visual-direction engine for moodboards. Read the project context below and produce ONE cohesive visual direction as strict JSON. Be specific to this exact brief \u2014 avoid generic default answers.
+  return `You are Mosaik, an AI visual-direction engine for moodboards. Read the project context below and produce ONE cohesive visual direction as strict JSON. Be specific to this exact brief \u2014 avoid generic default answers.
 
 PROJECT DESCRIPTION:
 """${description}"""
@@ -172,7 +172,7 @@ Return ONLY a JSON object with this exact shape, no markdown fences, no commenta
 }
 
 /* -------------- main app -------------- */
-export default function MosaicApp() {
+export default function MosaikApp() {
   const [screen, setScreen] = useState("input"); // input | result
   const [text, setText] = useState("");
   const [files, setFiles] = useState([]);
@@ -447,7 +447,7 @@ export default function MosaicApp() {
   return (
     <div style={styles.page}>
       <GlobalStyle />
-      <div className="mosaic-root">
+      <div className="mosaik-root">
         {screen === "input" ? (
           <InputScreen
             text={text} setText={setText}
@@ -477,7 +477,7 @@ export default function MosaicApp() {
           />
         )}
 
-        {toast && <div className="mosaic-toast" style={styles.toast}>{toast}</div>}
+        {toast && <div className="mosaik-toast" style={styles.toast}>{toast}</div>}
 
         {settingsOpen && (
           <SettingsModal
@@ -517,11 +517,11 @@ function InputScreen({
   return (
     <>
       <nav style={styles.nav}>
-        <div style={styles.wordmark}>Mosaic</div>
+        <div style={styles.wordmark}>Mosaik</div>
         <div style={styles.navLinks}>
-          <a href="#" className="mosaic-nav-link mosaic-focusable" style={styles.navLink}>How it works</a>
-          <a href="#" className="mosaic-nav-link mosaic-focusable" style={styles.navLink}>My moodboards</a>
-          <button type="button" className="mosaic-focusable" style={styles.gearBtn} onClick={openSettings} aria-label="Settings">
+          <a href="#" className="mosaik-nav-link mosaik-focusable" style={styles.navLink}>How it works</a>
+          <a href="#" className="mosaik-nav-link mosaik-focusable" style={styles.navLink}>My moodboards</a>
+          <button type="button" className="mosaik-focusable" style={styles.gearBtn} onClick={openSettings} aria-label="Settings">
             <GearIcon />
           </button>
         </div>
@@ -530,12 +530,12 @@ function InputScreen({
       <main style={styles.main}>
         <div style={styles.heroText}>
           <p style={styles.eyebrow}>AI visual direction tool</p>
-          <h1 className="mosaic-heading" style={styles.heading}>What are you building?</h1>
+          <h1 className="mosaik-heading" style={styles.heading}>What are you building?</h1>
           <p style={styles.subcopy}>
-            Share your project context, research, or early ideas. Mosaic will turn it into a visual direction.
+            Share your project context, research, or early ideas. Mosaik will turn it into a visual direction.
           </p>
           {!keysReady && (
-            <button type="button" className="mosaic-focusable" style={styles.keysNudge} onClick={openSettings}>
+            <button type="button" className="mosaik-focusable" style={styles.keysNudge} onClick={openSettings}>
               Add your Gemini &amp; Unsplash keys to generate real results \u2192
             </button>
           )}
@@ -544,10 +544,10 @@ function InputScreen({
         <div style={styles.card}>
           {status !== "loading" ? (
             <>
-              <label htmlFor="mosaic-desc" style={styles.fieldLabel}>Describe your project</label>
+              <label htmlFor="mosaik-desc" style={styles.fieldLabel}>Describe your project</label>
               <textarea
-                id="mosaic-desc"
-                className="mosaic-textarea mosaic-focusable"
+                id="mosaik-desc"
+                className="mosaik-textarea mosaik-focusable"
                 style={styles.textarea}
                 placeholder={"Example: We\u2019re creating a wellbeing app for busy young professionals. It should feel calm, grounded, and quietly premium\u2014not clinical or overly spiritual."}
                 value={text}
@@ -564,7 +564,7 @@ function InputScreen({
                   onChange={handleFilesSelected}
                   style={{ display: "none" }}
                 />
-                <button type="button" className="mosaic-focusable" style={styles.addSourcesBtn} onClick={triggerFilePicker}>
+                <button type="button" className="mosaik-focusable" style={styles.addSourcesBtn} onClick={triggerFilePicker}>
                   <UploadIcon /> Add sources
                 </button>
                 <span style={styles.supportedTypes}>PDF, PNG, JPG</span>
@@ -576,10 +576,10 @@ function InputScreen({
               {files.length > 0 && (
                 <div style={styles.chipRow}>
                   {files.map((f) => (
-                    <div key={f.name} className="mosaic-chip-in" style={styles.fileChip}>
+                    <div key={f.name} className="mosaik-chip-in" style={styles.fileChip}>
                       <span style={styles.fileChipIcon}>{f.type === "pdf" ? <PdfIcon /> : <ImgIcon />}</span>
                       <span style={styles.fileChipName}>{f.name}</span>
-                      <button type="button" aria-label={`Remove ${f.name}`} className="mosaic-focusable" style={styles.fileChipRemove} onClick={() => removeFile(f.name)}>
+                      <button type="button" aria-label={`Remove ${f.name}`} className="mosaik-focusable" style={styles.fileChipRemove} onClick={() => removeFile(f.name)}>
                         <CloseIcon />
                       </button>
                     </div>
@@ -588,12 +588,12 @@ function InputScreen({
               )}
 
               <div style={styles.feelSection}>
-                <label htmlFor="mosaic-keyword-input" style={styles.feelLabel}>Anything it should feel like?</label>
+                <label htmlFor="mosaik-keyword-input" style={styles.feelLabel}>Anything it should feel like?</label>
                 <div style={styles.chipRow}>
                   {ALL_CHIPS.map((chip) => {
                     const selected = selectedChips.includes(chip);
                     return (
-                      <button type="button" key={chip} className="mosaic-chip mosaic-focusable" onClick={() => toggleChip(chip)}
+                      <button type="button" key={chip} className="mosaik-chip mosaik-focusable" onClick={() => toggleChip(chip)}
                         style={{ ...styles.feelChip, ...(selected ? styles.feelChipSelected : {}) }}>
                         {chip}
                         {selected && <span style={styles.feelChipX}><CloseIcon /></span>}
@@ -604,9 +604,9 @@ function InputScreen({
 
                 <div style={styles.keywordInputRow}>
                   <input
-                    id="mosaic-keyword-input"
+                    id="mosaik-keyword-input"
                     type="text"
-                    className="mosaic-focusable"
+                    className="mosaik-focusable"
                     style={styles.keywordInput}
                     placeholder="Type a keyword and press Enter\u2026"
                     value={keywordInput}
@@ -618,7 +618,7 @@ function InputScreen({
                       }
                     }}
                   />
-                  <button type="button" className="mosaic-focusable" style={styles.keywordAddBtn} onClick={addCustomChip}>
+                  <button type="button" className="mosaik-focusable" style={styles.keywordAddBtn} onClick={addCustomChip}>
                     Add
                   </button>
                 </div>
@@ -626,9 +626,9 @@ function InputScreen({
                 {customChips.length > 0 && (
                   <div style={styles.chipRow}>
                     {customChips.map((chip) => (
-                      <span key={chip} className="mosaic-chip-in" style={styles.customChip}>
+                      <span key={chip} className="mosaik-chip-in" style={styles.customChip}>
                         {chip}
-                        <button type="button" aria-label={`Remove ${chip}`} className="mosaic-focusable" style={styles.customChipRemove} onClick={() => removeCustomChip(chip)}>
+                        <button type="button" aria-label={`Remove ${chip}`} className="mosaik-focusable" style={styles.customChipRemove} onClick={() => removeCustomChip(chip)}>
                           <CloseIcon />
                         </button>
                       </span>
@@ -640,10 +640,10 @@ function InputScreen({
               {errorMsg && <p style={styles.errorText}>{errorMsg}</p>}
 
               <div style={styles.actionsRow}>
-                <button type="button" className="mosaic-focusable" style={styles.tryLumaBtn} onClick={handleTrySample}>
+                <button type="button" className="mosaik-focusable" style={styles.tryLumaBtn} onClick={handleTrySample}>
                   Try creating a sample moodboard
                 </button>
-                <button type="button" className="mosaic-primary-btn mosaic-focusable"
+                <button type="button" className="mosaik-primary-btn mosaik-focusable"
                   style={{ ...styles.primaryBtn, ...(canGenerate ? {} : styles.primaryBtnDisabled) }}
                   disabled={!canGenerate} onClick={handleGenerate}>
                   Generate moodboard
@@ -653,11 +653,11 @@ function InputScreen({
           ) : (
             <div style={styles.loadingWrap}>
               <div style={styles.loadingDots}>
-                <span className="mosaic-dot" style={styles.dot} />
-                <span className="mosaic-dot" style={styles.dot} />
-                <span className="mosaic-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
               </div>
-              <p key={loadingStep} className="mosaic-fade" style={styles.loadingText}>
+              <p key={loadingStep} className="mosaik-fade" style={styles.loadingText}>
                 {LOADING_STEPS[loadingStep]}
               </p>
             </div>
@@ -680,15 +680,15 @@ function ResultScreen({
   return (
     <>
       <nav style={styles.nav}>
-        <div style={styles.wordmark}>Mosaic</div>
+        <div style={styles.wordmark}>Mosaik</div>
         <div style={styles.navLinks}>
-          <button type="button" className="mosaic-focusable" style={styles.gearBtn} onClick={openSettings} aria-label="Settings"><GearIcon /></button>
-          <button type="button" className="mosaic-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button>
+          <button type="button" className="mosaik-focusable" style={styles.gearBtn} onClick={openSettings} aria-label="Settings"><GearIcon /></button>
+          <button type="button" className="mosaik-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button>
         </div>
       </nav>
 
       <main style={styles.main2}>
-        <button type="button" onClick={onBack} className="mosaic-link mosaic-focusable" style={styles.backLink}>
+        <button type="button" onClick={onBack} className="mosaik-link mosaik-focusable" style={styles.backLink}>
           \u2190 Back to project input
         </button>
 
@@ -704,8 +704,8 @@ function ResultScreen({
           )}
         </div>
 
-        <div key={title} className="mosaic-fade" style={styles.titleBlock}>
-          <h1 className="mosaic-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1>
+        <div key={title} className="mosaik-fade" style={styles.titleBlock}>
+          <h1 className="mosaik-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1>
           <p style={styles.rationale}>{rationale}</p>
         </div>
 
@@ -713,18 +713,18 @@ function ResultScreen({
         <section style={styles.section}>
           <div style={styles.sectionHeadRow}>
             <h2 style={styles.sectionHeading}>Imagery direction</h2>
-            <button type="button" className="mosaic-focusable" style={styles.reshuffleBtn} onClick={handleReshuffleImagery} disabled={reshuffling}>
+            <button type="button" className="mosaik-focusable" style={styles.reshuffleBtn} onClick={handleReshuffleImagery} disabled={reshuffling}>
               <ShuffleIcon /> {reshuffling ? "Reshuffling\u2026" : "Reshuffle imagery"}
             </button>
           </div>
 
-          <div className="mosaic-imagery-grid">
+          <div className="mosaik-imagery-grid">
             <ImgTile img={hero} area="hero" />
             <ImgTile img={img2} area="a" />
             <ImgTile img={img3} area="b" />
             <ImgTile img={img4} area="c" />
           </div>
-          <div className="mosaic-support-row">
+          <div className="mosaik-support-row">
             <ImgTile img={img5} tall />
             <ImgTile img={img6} tall />
           </div>
@@ -734,11 +734,11 @@ function ResultScreen({
         {/* Palette */}
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>Colour palette</h2>
-          <div className="mosaic-palette-grid">
+          <div className="mosaik-palette-grid">
             {palette.map((c) => {
               const isDark = getLuminance(c.hex) < 0.5;
               return (
-                <button type="button" key={c.hex} className="mosaic-swatch mosaic-focusable" onClick={() => copySwatch(c.hex)}
+                <button type="button" key={c.hex} className="mosaik-swatch mosaik-focusable" onClick={() => copySwatch(c.hex)}
                   style={{ ...styles.swatch, background: c.hex, color: isDark ? "#F4F0E8" : "#252A28" }}>
                   <span style={styles.swatchTop}>
                     <span style={styles.swatchName}>{c.name}</span>
@@ -754,13 +754,13 @@ function ResultScreen({
         {/* Typography */}
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>Type with warmth and clarity</h2>
-          <div className="mosaic-type-grid">
-            <div style={styles.typeCard} className="mosaic-card-hover">
+          <div className="mosaik-type-grid">
+            <div style={styles.typeCard} className="mosaik-card-hover">
               <p style={styles.typeFontLabel}>Heading \u2014 {headingFont}</p>
               <p style={{ ...styles.typeSpecimenSerif, fontFamily: `'${headingFont}', serif` }}>{headingSpecimen}</p>
               <p style={styles.typeDescriptor}>Sets the tone for this direction</p>
             </div>
-            <div style={styles.typeCard} className="mosaic-card-hover">
+            <div style={styles.typeCard} className="mosaik-card-hover">
               <p style={styles.typeFontLabel}>Body \u2014 {bodyFont}</p>
               <p style={{ ...styles.typeSpecimenSans, fontFamily: `'${bodyFont}', sans-serif` }}>{bodySpecimen}</p>
               <p style={styles.typeDescriptor}>Clear, modern, highly readable</p>
@@ -771,9 +771,9 @@ function ResultScreen({
         {/* Principles */}
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>Visual principles</h2>
-          <div className="mosaic-principles-grid">
+          <div className="mosaik-principles-grid">
             {principles.map((p, i) => (
-              <div key={i} style={styles.principleCard} className="mosaic-card-hover">
+              <div key={i} style={styles.principleCard} className="mosaik-card-hover">
                 <h3 style={styles.principleTitle}>{p.title}</h3>
                 <p style={styles.principleCopy}>{p.copy}</p>
               </div>
@@ -785,7 +785,7 @@ function ResultScreen({
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>How this could translate to product UI</h2>
           <div style={styles.uiPreviewWrap}>
-            <div className="mosaic-ui-grid">
+            <div className="mosaik-ui-grid">
               <div style={styles.phoneCard}>
                 <div style={{ ...styles.phoneHeaderDot, background: palette[2]?.hex || "#C98568" }} />
                 <p style={{ ...styles.phoneTitle, fontFamily: `'${headingFont}', serif` }}>Today\u2019s reset</p>
@@ -812,17 +812,17 @@ function ResultScreen({
         <div style={styles.bottomSpacer} />
       </main>
 
-      <div className="mosaic-fab" style={styles.fab}>
-        <button type="button" className="mosaic-fab-btn mosaic-focusable" style={styles.fabSecondary} onClick={copyMoodboardData}>
+      <div className="mosaik-fab" style={styles.fab}>
+        <button type="button" className="mosaik-fab-btn mosaik-focusable" style={styles.fabSecondary} onClick={copyMoodboardData}>
           <CopyIcon /> Copy moodboard data
         </button>
-        <button type="button" className="mosaic-fab-btn mosaic-focusable" style={styles.fabSecondary} onClick={openRefine}>
+        <button type="button" className="mosaik-fab-btn mosaik-focusable" style={styles.fabSecondary} onClick={openRefine}>
           <RefineIcon /> Refine moodboard
         </button>
-        <button type="button" className="mosaic-fab-btn mosaic-focusable" style={styles.fabSecondary} onClick={onNew}>
+        <button type="button" className="mosaik-fab-btn mosaik-focusable" style={styles.fabSecondary} onClick={onNew}>
           Create another
         </button>
-        <button type="button" className="mosaic-fab-btn mosaic-focusable" style={styles.fabPrimary} onClick={() => setShareOpen(true)}>
+        <button type="button" className="mosaik-fab-btn mosaik-focusable" style={styles.fabPrimary} onClick={() => setShareOpen(true)}>
           <ShareIcon /> Share
         </button>
       </div>
@@ -831,7 +831,7 @@ function ResultScreen({
 }
 
 function ImgTile({ img, area, tall }) {
-  const cls = area ? `mosaic-tile-${area}` : "mosaic-tile-support";
+  const cls = area ? `mosaik-tile-${area}` : "mosaik-tile-support";
   return (
     <div className={cls} style={{ ...styles.imgCard, ...(tall ? { height: "100%" } : {}) }}>
       {img?.url ? (
@@ -858,36 +858,36 @@ function getLuminance(hex) {
 /* -------------- modals -------------- */
 function SettingsModal({ keyDraft, setKeyDraft, onSave, onClose }) {
   return (
-    <div className="mosaic-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
-      <div className="mosaic-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
+    <div className="mosaik-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
+      <div className="mosaik-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalHeader}>
           <p style={styles.modalLabel}>API keys</p>
-          <button type="button" aria-label="Close" className="mosaic-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
+          <button type="button" aria-label="Close" className="mosaik-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
         </div>
         <p style={styles.modalHint}>
           Used directly from your browser to call Gemini and Unsplash. Nothing is stored or sent anywhere else.
         </p>
-        <label style={styles.settingsLabel} htmlFor="mosaic-gemini-key">Gemini API key</label>
+        <label style={styles.settingsLabel} htmlFor="mosaik-gemini-key">Gemini API key</label>
         <input
-          id="mosaic-gemini-key"
+          id="mosaik-gemini-key"
           type="password"
-          className="mosaic-focusable"
+          className="mosaik-focusable"
           style={styles.settingsInput}
           value={keyDraft.gemini}
           onChange={(e) => setKeyDraft((k) => ({ ...k, gemini: e.target.value }))}
           placeholder="AIza\u2026"
         />
-        <label style={{ ...styles.settingsLabel, marginTop: 16 }} htmlFor="mosaic-unsplash-key">Unsplash access key</label>
+        <label style={{ ...styles.settingsLabel, marginTop: 16 }} htmlFor="mosaik-unsplash-key">Unsplash access key</label>
         <input
-          id="mosaic-unsplash-key"
+          id="mosaik-unsplash-key"
           type="password"
-          className="mosaic-focusable"
+          className="mosaik-focusable"
           style={styles.settingsInput}
           value={keyDraft.unsplash}
           onChange={(e) => setKeyDraft((k) => ({ ...k, unsplash: e.target.value }))}
           placeholder="Unsplash access key"
         />
-        <button type="button" className="mosaic-focusable" style={styles.regenerateBtn} onClick={onSave}>
+        <button type="button" className="mosaik-focusable" style={styles.regenerateBtn} onClick={onSave}>
           Save keys
         </button>
       </div>
@@ -897,24 +897,24 @@ function SettingsModal({ keyDraft, setKeyDraft, onSave, onClose }) {
 
 function RefineModal({ selectedRefineChip, setSelectedRefineChip, regenerating, regenerate, onClose }) {
   return (
-    <div className="mosaic-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
-      <div className="mosaic-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
+    <div className="mosaik-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
+      <div className="mosaik-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalHeader}>
           <p style={styles.modalLabel}>What should change?</p>
-          <button type="button" aria-label="Close" className="mosaic-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
+          <button type="button" aria-label="Close" className="mosaik-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
         </div>
         <div style={styles.refineChipRow}>
           {REFINE_CHIPS.map((chip) => {
             const selected = selectedRefineChip === chip;
             return (
-              <button type="button" key={chip} className="mosaic-chip-btn mosaic-focusable" onClick={() => setSelectedRefineChip(chip)}
+              <button type="button" key={chip} className="mosaik-chip-btn mosaik-focusable" onClick={() => setSelectedRefineChip(chip)}
                 style={{ ...styles.refineChip, ...(selected ? styles.refineChipSelected : {}) }}>
                 {chip}
               </button>
             );
           })}
         </div>
-        <button type="button" className="mosaic-focusable"
+        <button type="button" className="mosaik-focusable"
           style={{ ...styles.regenerateBtn, ...(selectedRefineChip && !regenerating ? {} : styles.regenerateBtnDisabled) }}
           disabled={!selectedRefineChip || regenerating} onClick={regenerate}>
           {regenerating ? "Regenerating\u2026" : "Regenerate moodboard"}
@@ -927,15 +927,15 @@ function RefineModal({ selectedRefineChip, setSelectedRefineChip, regenerating, 
 function ShareModal({ projectName, title, linkCopied, copyLink, onClose }) {
   const slug = `${(projectName || "project").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(title || "direction").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return (
-    <div className="mosaic-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
-      <div className="mosaic-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
+    <div className="mosaik-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
+      <div className="mosaik-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalHeader}>
           <p style={styles.modalTitleShare}>Moodboard ready to share</p>
-          <button type="button" aria-label="Close" className="mosaic-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
+          <button type="button" aria-label="Close" className="mosaik-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
         </div>
         <div style={styles.shareUrlRow}>
-          <span style={styles.shareUrl}>mosaic.design/m/{slug}</span>
-          <button type="button" className="mosaic-focusable" style={styles.copyLinkBtn} onClick={copyLink}>
+          <span style={styles.shareUrl}>mosaik.design/m/{slug}</span>
+          <button type="button" className="mosaik-focusable" style={styles.copyLinkBtn} onClick={copyLink}>
             {linkCopied ? <CheckIcon /> : <CopyIcon />} {linkCopied ? "Copied" : "Copy link"}
           </button>
         </div>
@@ -951,67 +951,67 @@ function GlobalStyle() {
       @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap');
       * { box-sizing: border-box; }
       body { margin: 0; }
-      .mosaic-root { font-family: 'Inter', -apple-system, sans-serif; }
-      .mosaic-focusable:focus-visible { outline: 2px solid #7C8D74; outline-offset: 2px; }
+      .mosaik-root { font-family: 'Inter', -apple-system, sans-serif; }
+      .mosaik-focusable:focus-visible { outline: 2px solid #7C8D74; outline-offset: 2px; }
 
-      .mosaic-nav-link, .mosaic-link { position: relative; text-decoration: none; }
-      .mosaic-nav-link::after, .mosaic-link::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 0%; height: 1px; background: currentColor; transition: width 0.2s ease; }
-      .mosaic-nav-link:hover::after, .mosaic-link:hover::after { width: 100%; }
+      .mosaik-nav-link, .mosaik-link { position: relative; text-decoration: none; }
+      .mosaik-nav-link::after, .mosaik-link::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 0%; height: 1px; background: currentColor; transition: width 0.2s ease; }
+      .mosaik-nav-link:hover::after, .mosaik-link:hover::after { width: 100%; }
 
-      textarea.mosaic-textarea:focus { outline: none; border-color: #97A98D; box-shadow: 0 0 0 3px rgba(124,141,116,0.16); }
+      textarea.mosaik-textarea:focus { outline: none; border-color: #97A98D; box-shadow: 0 0 0 3px rgba(124,141,116,0.16); }
 
-      .mosaic-chip, .mosaic-chip-btn { transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
-      .mosaic-primary-btn { transition: transform 0.15s ease, box-shadow 0.15s ease; }
-      .mosaic-primary-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(58,56,53,0.18); }
+      .mosaik-chip, .mosaik-chip-btn { transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+      .mosaik-primary-btn { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+      .mosaik-primary-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(58,56,53,0.18); }
 
-      .mosaic-swatch { transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: pointer; }
-      .mosaic-swatch:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -16px rgba(37,42,40,0.35); }
-      .mosaic-card-hover { transition: transform 0.18s ease, box-shadow 0.18s ease; }
-      .mosaic-card-hover:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -20px rgba(37,42,40,0.3); }
-      .mosaic-fab-btn { transition: transform 0.15s ease, background 0.15s ease; }
-      .mosaic-fab-btn:hover { transform: translateY(-1px); }
+      .mosaik-swatch { transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: pointer; }
+      .mosaik-swatch:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -16px rgba(37,42,40,0.35); }
+      .mosaik-card-hover { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+      .mosaik-card-hover:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -20px rgba(37,42,40,0.3); }
+      .mosaik-fab-btn { transition: transform 0.15s ease, background 0.15s ease; }
+      .mosaik-fab-btn:hover { transform: translateY(-1px); }
 
-      .mosaic-fade-in, .mosaic-chip-in { animation: mosaicChipIn 0.35s ease both; }
-      @keyframes mosaicChipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-      .mosaic-fade { animation: mosaicFade 0.35s ease both; }
-      @keyframes mosaicFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-      .mosaic-dot { animation: mosaicPulse 1.1s ease-in-out infinite; }
-      .mosaic-dot:nth-child(2) { animation-delay: 0.15s; }
-      .mosaic-dot:nth-child(3) { animation-delay: 0.3s; }
-      @keyframes mosaicPulse { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
-      .mosaic-toast { animation: mosaicToastIn 0.3s ease both; }
-      @keyframes mosaicToastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
-      .mosaic-modal-backdrop { animation: mosaicBackdropIn 0.2s ease both; }
-      @keyframes mosaicBackdropIn { from { opacity: 0; } to { opacity: 1; } }
-      .mosaic-modal-panel { animation: mosaicPanelIn 0.28s ease both; }
-      @keyframes mosaicPanelIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      .mosaik-fade-in, .mosaik-chip-in { animation: mosaikChipIn 0.35s ease both; }
+      @keyframes mosaikChipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+      .mosaik-fade { animation: mosaikFade 0.35s ease both; }
+      @keyframes mosaikFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+      .mosaik-dot { animation: mosaikPulse 1.1s ease-in-out infinite; }
+      .mosaik-dot:nth-child(2) { animation-delay: 0.15s; }
+      .mosaik-dot:nth-child(3) { animation-delay: 0.3s; }
+      @keyframes mosaikPulse { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+      .mosaik-toast { animation: mosaikToastIn 0.3s ease both; }
+      @keyframes mosaikToastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+      .mosaik-modal-backdrop { animation: mosaikBackdropIn 0.2s ease both; }
+      @keyframes mosaikBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+      .mosaik-modal-panel { animation: mosaikPanelIn 0.28s ease both; }
+      @keyframes mosaikPanelIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
       @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
-      .mosaic-imagery-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: 210px 210px; gap: 14px; }
-      .mosaic-tile-hero { grid-column: 1; grid-row: 1 / 3; }
-      .mosaic-tile-a { grid-column: 2; grid-row: 1; }
-      .mosaic-tile-b { grid-column: 3; grid-row: 1; }
-      .mosaic-tile-c { grid-column: 2 / 4; grid-row: 2; }
-      .mosaic-support-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; height: 220px; }
+      .mosaik-imagery-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: 210px 210px; gap: 14px; }
+      .mosaik-tile-hero { grid-column: 1; grid-row: 1 / 3; }
+      .mosaik-tile-a { grid-column: 2; grid-row: 1; }
+      .mosaik-tile-b { grid-column: 3; grid-row: 1; }
+      .mosaik-tile-c { grid-column: 2 / 4; grid-row: 2; }
+      .mosaik-support-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; height: 220px; }
 
-      .mosaic-palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-      .mosaic-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-      .mosaic-principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      .mosaic-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .mosaik-palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      .mosaik-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+      .mosaik-principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .mosaik-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
       @media (max-width: 860px) {
-        .mosaic-nav-links a { display: none; }
-        .mosaic-heading, .mosaic-title { font-size: 34px !important; }
-        .mosaic-imagery-grid { grid-template-columns: 1fr; grid-template-rows: none; }
-        .mosaic-tile-hero, .mosaic-tile-a, .mosaic-tile-b, .mosaic-tile-c { grid-column: auto; grid-row: auto; height: 220px; }
-        .mosaic-support-row { grid-template-columns: 1fr; height: auto; }
-        .mosaic-support-row > div { height: 200px; }
-        .mosaic-palette-grid { grid-template-columns: repeat(2, 1fr); }
-        .mosaic-type-grid { grid-template-columns: 1fr; }
-        .mosaic-principles-grid { grid-template-columns: 1fr; }
-        .mosaic-ui-grid { grid-template-columns: 1fr; }
-        .mosaic-fab { position: static !important; margin: 40px auto 0 !important; justify-content: center !important; flex-wrap: wrap; }
+        .mosaik-nav-links a { display: none; }
+        .mosaik-heading, .mosaik-title { font-size: 34px !important; }
+        .mosaik-imagery-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+        .mosaik-tile-hero, .mosaik-tile-a, .mosaik-tile-b, .mosaik-tile-c { grid-column: auto; grid-row: auto; height: 220px; }
+        .mosaik-support-row { grid-template-columns: 1fr; height: auto; }
+        .mosaik-support-row > div { height: 200px; }
+        .mosaik-palette-grid { grid-template-columns: repeat(2, 1fr); }
+        .mosaik-type-grid { grid-template-columns: 1fr; }
+        .mosaik-principles-grid { grid-template-columns: 1fr; }
+        .mosaik-ui-grid { grid-template-columns: 1fr; }
+        .mosaik-fab { position: static !important; margin: 40px auto 0 !important; justify-content: center !important; flex-wrap: wrap; }
       }
     `}</style>
   );

@@ -1,4 +1,4 @@
-# Mosaic — Layout Fixes, Section Polish, and New "Product Preview" Screen
+# Mosaik — Layout Fixes, Section Polish, and New "Product Preview" Screen
 
 Copy everything below into Cline.
 

@@ -1,4 +1,4 @@
-You are finishing an existing Vite/React app called "Mosaic," a moodboard
+You are finishing an existing Vite/React app called "Mosaik," a moodboard
 generator. src/App.jsx already contains a working prototype: two screens
 (input + result), a Settings modal for API keys, and functions callGemini()
 and searchUnsplash() that call Gemini and Unsplash directly from the browser.

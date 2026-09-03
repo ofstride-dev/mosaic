@@ -84,7 +84,7 @@ function TextureFallback({ label }) {
 }
 
 /* -------------- main app -------------- */
-export default function MosaicApp() {
+export default function MosaikApp() {
   const [screen, setScreen] = useState("input");
   const [previewMode, setPreviewMode] = useState("desktop");
   const [text, setText] = useState("");
@@ -135,7 +135,7 @@ export default function MosaicApp() {
   const copyMoodboardData=async()=>{if(!result)return;const lines=[`# ${result.title||"Moodboard"}`,`\n## Project\n${result.projectName||""}`,`\n## Colors\n${(result.palette||[]).map((c)=>`- **${c.role||c.name}**: ${c.hex}`).join("\n")}`,`\n## Typography\n- Heading: ${result.headingFont||""}\n- Body: ${result.bodyFont||""}`,`\n## Visual principles\n${(result.principles||[]).map((p)=>`- **${p.title}**: ${p.copy}`).join("\n")}`,`\n## Imagery\nQueries: ${(result.imagery?.pexelsQueries||result.imageryQueries||[]).join(", ")}\nPrompts: ${(result.imagery?.pollinationsPrompts||[]).join(" | ")}\nURLs:\n${(result.images||[]).map((image)=>`- ${image.url||"Unavailable"}`).join("\n")}`].join("\n");try{await navigator.clipboard.writeText(lines);showToast("Moodboard data copied to clipboard.");}catch{showToast("Clipboard permission was unavailable.");}};
   const copyLink=()=>{setLinkCopied(true);setTimeout(()=>setLinkCopied(false),1600);};
   const showPresetLibraryToast=()=>showToast("Preset library &mdash; coming soon");
-  return <div style={styles.page}><GlobalStyle/><div className="mosaic-root">{screen==="input"?<InputScreen text={text} setText={setText} files={files} removeFile={removeFile} fileInputRef={fileInputRef} triggerFilePicker={triggerFilePicker} handleFilesSelected={handleFilesSelected} selectedChips={selectedChips} toggleChip={toggleChip} customChips={customChips} keywordInput={keywordInput} setKeywordInput={setKeywordInput} addCustomChip={addCustomChip} removeCustomChip={removeCustomChip} handleTrySample={handleTrySample} canGenerate={canGenerate} status={status} loadingStep={loadingStep} handleGenerate={handleGenerate} errorMsg={errorMsg} showPresetLibraryToast={showPresetLibraryToast}/>:screen==="preview"?<ProductPreview result={result} mode={previewMode} setMode={setPreviewMode} onBack={()=>setScreen("result")} />:<ResultScreen result={result} textureSeeds={textureSeeds} onBack={()=>setScreen("input")} onNew={handleCreateAnother} copiedSwatch={copiedSwatch} copySwatch={copySwatch} copyMoodboardData={copyMoodboardData} openRefine={openRefine} reshuffling={reshuffling} handleReshuffleImagery={handleReshuffleImagery} setShareOpen={setShareOpen} locks={locks} toggleLock={toggleLock} recolourSwatch={recolorSwatch} recolouring={recolouring} onPreview={()=>setScreen("preview")} />}{toast&&<div className="mosaic-toast" style={styles.toast}>{toast}</div>}{refineOpen&&<RefineModal selectedRefineChip={selectedRefineChip} setSelectedRefineChip={setSelectedRefineChip} regenerating={regenerating} regenerate={regenerate} onClose={()=>!regenerating&&setRefineOpen(false)}/>} {shareOpen&&result&&<ShareModal projectName={result.projectName} title={result.title} linkCopied={linkCopied} copyLink={copyLink} onClose={()=>setShareOpen(false)}/>}</div></div>;
+  return <div style={styles.page}><GlobalStyle/><div className="mosaik-root">{screen==="input"?<InputScreen text={text} setText={setText} files={files} removeFile={removeFile} fileInputRef={fileInputRef} triggerFilePicker={triggerFilePicker} handleFilesSelected={handleFilesSelected} selectedChips={selectedChips} toggleChip={toggleChip} customChips={customChips} keywordInput={keywordInput} setKeywordInput={setKeywordInput} addCustomChip={addCustomChip} removeCustomChip={removeCustomChip} handleTrySample={handleTrySample} canGenerate={canGenerate} status={status} loadingStep={loadingStep} handleGenerate={handleGenerate} errorMsg={errorMsg} showPresetLibraryToast={showPresetLibraryToast}/>:screen==="preview"?<ProductPreview result={result} mode={previewMode} setMode={setPreviewMode} onBack={()=>setScreen("result")} />:<ResultScreen result={result} textureSeeds={textureSeeds} onBack={()=>setScreen("input")} onNew={handleCreateAnother} copiedSwatch={copiedSwatch} copySwatch={copySwatch} copyMoodboardData={copyMoodboardData} openRefine={openRefine} reshuffling={reshuffling} handleReshuffleImagery={handleReshuffleImagery} setShareOpen={setShareOpen} locks={locks} toggleLock={toggleLock} recolourSwatch={recolorSwatch} recolouring={recolouring} onPreview={()=>setScreen("preview")} />}{toast&&<div className="mosaik-toast" style={styles.toast}>{toast}</div>}{refineOpen&&<RefineModal selectedRefineChip={selectedRefineChip} setSelectedRefineChip={setSelectedRefineChip} regenerating={regenerating} regenerate={regenerate} onClose={()=>!regenerating&&setRefineOpen(false)}/>} {shareOpen&&result&&<ShareModal projectName={result.projectName} title={result.title} linkCopied={linkCopied} copyLink={copyLink} onClose={()=>setShareOpen(false)}/>}</div></div>;
 }
 
 /* -------------- input screen -------------- */
@@ -148,29 +148,29 @@ function InputScreen({
   return (
     <>
       <nav style={styles.nav}>
-        <div style={styles.wordmark}>Mosaic</div>
+        <div style={styles.wordmark}>Mosaik</div>
         <div style={styles.navLinks}>
-                    <a href="#" className="mosaic-nav-link mosaic-focusable" style={styles.navLink}>My moodboards</a>
-          <button type="button" className="mosaic-nav-link mosaic-focusable" style={styles.navLinkButton} onClick={showPresetLibraryToast}>Preset library</button>
+                    <a href="#" className="mosaik-nav-link mosaik-focusable" style={styles.navLink}>My moodboards</a>
+          <button type="button" className="mosaik-nav-link mosaik-focusable" style={styles.navLinkButton} onClick={showPresetLibraryToast}>Preset library</button>
         </div>
       </nav>
 
       <main style={styles.main}>
         <div style={styles.heroText}>
           <p style={styles.eyebrow}>AI visual direction tool</p>
-          <h1 className="mosaic-heading" style={styles.heading}>What are you building?</h1>
+          <h1 className="mosaik-heading" style={styles.heading}>What are you building?</h1>
           <p style={styles.subcopy}>
-            Share your project context, research, or early ideas. Mosaic will turn it into a visual direction.
+            Share your project context, research, or early ideas. Mosaik will turn it into a visual direction.
           </p>
         </div>
 
         <div style={styles.card}>
           {status !== "loading" ? (
             <>
-              <label htmlFor="mosaic-desc" style={styles.fieldLabel}>Describe your project</label>
+              <label htmlFor="mosaik-desc" style={styles.fieldLabel}>Describe your project</label>
               <textarea
-                id="mosaic-desc"
-                className="mosaic-textarea mosaic-focusable"
+                id="mosaik-desc"
+                className="mosaik-textarea mosaik-focusable"
                 style={styles.textarea}
                 placeholder={"Example: We\u2019re creating a wellbeing app for busy young professionals. It should feel calm, grounded, and quietly premium\u2014not clinical or overly spiritual."}
                 value={text}
@@ -187,7 +187,7 @@ function InputScreen({
                   onChange={handleFilesSelected}
                   style={{ display: "none" }}
                 />
-                <button type="button" className="mosaic-focusable" style={styles.addSourcesBtn} onClick={triggerFilePicker}>
+                <button type="button" className="mosaik-focusable" style={styles.addSourcesBtn} onClick={triggerFilePicker}>
                   <UploadIcon /> Add sources
                 </button>
                 <span style={styles.supportedTypes}>PDF, PNG, JPG</span>
@@ -199,10 +199,10 @@ function InputScreen({
               {files.length > 0 && (
                 <div style={styles.chipRow}>
                   {files.map((f) => (
-                    <div key={f.name} className="mosaic-chip-in" style={styles.fileChip}>
+                    <div key={f.name} className="mosaik-chip-in" style={styles.fileChip}>
                       <span style={styles.fileChipIcon}>{f.type === "pdf" ? <PdfIcon /> : <ImgIcon />}</span>
                       <span style={styles.fileChipName}>{f.name}</span>
-                      <button type="button" aria-label={`Remove ${f.name}`} className="mosaic-focusable" style={styles.fileChipRemove} onClick={() => removeFile(f.name)}>
+                      <button type="button" aria-label={`Remove ${f.name}`} className="mosaik-focusable" style={styles.fileChipRemove} onClick={() => removeFile(f.name)}>
                         <CloseIcon />
                       </button>
                     </div>
@@ -211,13 +211,13 @@ function InputScreen({
               )}
 
               <div style={styles.feelSection}>
-                <label htmlFor="mosaic-keyword-input" style={styles.feelLabel}>Anything it should feel like?</label>
-                <div style={styles.chipRow}>{PRESET_CHIPS.map((chip) => <button type="button" key={chip} className="mosaic-chip mosaic-focusable" onClick={() => toggleChip(chip)} style={{ ...styles.feelChip, ...(selectedChips.includes(chip) ? styles.feelChipSelected : {}) }}>{chip}</button>)}</div>
+                <label htmlFor="mosaik-keyword-input" style={styles.feelLabel}>Anything it should feel like?</label>
+                <div style={styles.chipRow}>{PRESET_CHIPS.map((chip) => <button type="button" key={chip} className="mosaik-chip mosaik-focusable" onClick={() => toggleChip(chip)} style={{ ...styles.feelChip, ...(selectedChips.includes(chip) ? styles.feelChipSelected : {}) }}>{chip}</button>)}</div>
                 <div style={styles.keywordInputRow}>
                   <input
-                    id="mosaic-keyword-input"
+                    id="mosaik-keyword-input"
                     type="text"
-                    className="mosaic-focusable"
+                    className="mosaik-focusable"
                     style={styles.keywordInput}
                     placeholder="Type a keyword and press Enter"
                     value={keywordInput}
@@ -229,7 +229,7 @@ function InputScreen({
                       }
                     }}
                   />
-                  <button type="button" className="mosaic-focusable" style={styles.keywordAddBtn} onClick={addCustomChip}>
+                  <button type="button" className="mosaik-focusable" style={styles.keywordAddBtn} onClick={addCustomChip}>
                     Add
                   </button>
                 </div>
@@ -237,9 +237,9 @@ function InputScreen({
                 {customChips.length > 0 && (
                   <div style={styles.chipRow}>
                     {customChips.map((chip) => (
-                      <span key={chip} className="mosaic-chip-in" style={styles.customChip}>
+                      <span key={chip} className="mosaik-chip-in" style={styles.customChip}>
                         {chip}
-                        <button type="button" aria-label={`Remove ${chip}`} className="mosaic-focusable" style={styles.customChipRemove} onClick={() => removeCustomChip(chip)}>
+                        <button type="button" aria-label={`Remove ${chip}`} className="mosaik-focusable" style={styles.customChipRemove} onClick={() => removeCustomChip(chip)}>
                           <CloseIcon />
                         </button>
                       </span>
@@ -251,10 +251,10 @@ function InputScreen({
               {errorMsg && <p style={styles.errorText}>{errorMsg}</p>}
 
               <div style={styles.actionsRow}>
-                <button type="button" className="mosaic-focusable" style={{ ...styles.tryLumaBtn, color: COLORS.clay }} onClick={handleTrySample}>
+                <button type="button" className="mosaik-focusable" style={{ ...styles.tryLumaBtn, color: COLORS.clay }} onClick={handleTrySample}>
                   Try creating a sample moodboard
                 </button>
-                <button type="button" className="mosaic-primary-btn mosaic-focusable"
+                <button type="button" className="mosaik-primary-btn mosaik-focusable"
                   style={{ ...styles.primaryBtn, ...(canGenerate ? {} : styles.primaryBtnDisabled) }}
                   disabled={!canGenerate} onClick={handleGenerate}>
                   Generate moodboard
@@ -264,11 +264,11 @@ function InputScreen({
           ) : (
             <div style={styles.loadingWrap}>
               <div style={styles.loadingDots}>
-                <span className="mosaic-dot" style={styles.dot} />
-                <span className="mosaic-dot" style={styles.dot} />
-                <span className="mosaic-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
+                <span className="mosaik-dot" style={styles.dot} />
               </div>
-              <p key={loadingStep} className="mosaic-fade" style={styles.loadingText}>
+              <p key={loadingStep} className="mosaik-fade" style={styles.loadingText}>
                 {LOADING_STEPS[loadingStep]}
               </p>
             </div>
@@ -287,20 +287,20 @@ function ResultScreen({ result, textureSeeds, onBack, onNew, copiedSwatch, copyS
   const combinedImages = [...images, ...textureAssets];
   const [imageItems] = useState(combinedImages);
   if (!result) return null;
-  const lockButton = (label, key) => <button type="button" className="mosaic-focusable" style={styles.lockBtn} onClick={() => toggleLock(key)} aria-label={`${locks[key] ? "Unlock" : "Lock"} ${label}`}><LockIcon locked={locks[key]} /></button>;
-  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaic</div><div style={styles.navLinks}><button type="button" className="mosaic-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button></div></nav><main style={styles.main2}><button type="button" onClick={onBack} className="mosaic-link mosaic-focusable" style={styles.backLink}>← Back to project input</button><p style={styles.eyebrowResult}>Generated live from your input via Azure OpenAI — no data stored.</p><div style={styles.metaRow}><span style={styles.metaItem}><span style={styles.metaKey}>Project </span><span style={styles.metaVal}>{projectName}</span></span>{feelings.length > 0 && <><span style={styles.metaDivider} /><span style={styles.metaItem}><span style={styles.metaKey}>Inputs </span><span style={styles.metaVal}>{feelings.join(", ")}</span></span></>}</div><div className="mosaic-fade" style={styles.titleBlock}><h1 className="mosaic-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1><p style={styles.rationale}>{rationale}</p></div>
-  <section style={styles.section}><div style={styles.sectionHeadRow}><h2 style={styles.sectionHeading}>Imagery direction</h2><div style={styles.sectionActions}>{lockButton("imagery", "imageryLocked")}<button type="button" className="mosaic-focusable" style={styles.reshuffleBtn} onClick={handleReshuffleImagery} disabled={reshuffling}><ShuffleIcon /> {reshuffling ? "Reshuffling…" : "Reshuffle imagery"}</button></div></div><div className="mosaic-imagery-grid">{imageItems.slice(0, 4).map((img, index) => <ImgTile key={index} img={img} area={index === 0 ? "hero" : String.fromCharCode(96 + index)} />)}</div><div className="mosaic-support-row">{imageItems.slice(4, 6).map((img, index) => <ImgTile key={index + 4} img={img} tall />)}</div><p style={styles.imageryLabel}>{imageryLabel}</p></section>
-  <section style={styles.section}><h2 style={styles.sectionHeading}>Colour palette</h2><div className="mosaic-palette-grid">{palette.map((c) => { const role = c.role || c.name; const locked = !!locks.paletteLocks[role]; const busy = recolouring === role; return <div key={role} className="mosaic-swatch mosaic-focusable" role="button" tabIndex={0} onClick={() => copySwatch(c.hex)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copySwatch(c.hex); } }} style={{ ...styles.swatch, background: c.hex, color: getLuminance(c.hex) < .5 ? "#F4F0E8" : "#252A28" }}><span style={styles.swatchTop}><span style={styles.swatchName}>{role}</span><button type="button" className="mosaic-focusable" style={styles.lockBtn} onClick={(e) => { e.stopPropagation(); toggleLock("palette:" + role); }} aria-label={locked ? "Unlock " + role : "Lock " + role}><LockIcon locked={locked} /></button></span><span style={styles.swatchHex}>{c.hex.toUpperCase()}</span><div style={styles.swatchActions}><small>{copiedSwatch === c.hex ? "Copied!" : "Click to copy"}</small><button type="button" className="mosaic-focusable" style={styles.recolourBtn} disabled={locked || busy} onClick={(e) => { e.stopPropagation(); recolourSwatch(role); }}>{busy ? "Recolouring…" : "Recolour"}</button></div></div>; })}</div></section>
-  <section style={styles.section}><h2 style={styles.sectionHeading}>Type with warmth and clarity</h2><div className="mosaic-type-grid"><div className="mosaic-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Heading: {headingFont} · {copiedSwatch === headingFont ? "Copied!" : "Copy"}</p>{lockButton("heading font", "headingFontLocked")}</div><button type="button" className="mosaic-type-copy mosaic-focusable" onClick={() => copySwatch(headingFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSerif, fontFamily: "'" + headingFont + "', serif" }}>{headingSpecimen}</span><span style={styles.typeDescriptor}>Sets the tone for this direction</span></button></div><div className="mosaic-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Body: {bodyFont} · {copiedSwatch === bodyFont ? "Copied!" : "Copy"}</p>{lockButton("body font", "bodyFontLocked")}</div><button type="button" className="mosaic-type-copy mosaic-focusable" onClick={() => copySwatch(bodyFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSans, fontFamily: "'" + bodyFont + "', sans-serif" }}>{bodySpecimen}</span><span style={styles.typeDescriptor}>Clear, modern, highly readable</span></button></div></div></section>
-  <section style={styles.section}><h2 style={styles.sectionHeading}>Visual principles</h2><div className="mosaic-principles-grid">{principles.map((p, i) => <div key={i} style={styles.principleCard}><span style={styles.principleNumber}>{String(i + 1).padStart(2, "0")}</span><h3 style={styles.principleTitle}>{p.title}</h3><p style={styles.principleCopy}>{p.copy}</p></div>)}</div></section><section style={styles.section}><h2 style={styles.sectionHeading}>UI Language</h2><p style={styles.imageryLabel}>Live preview of buttons, inputs, and components in this direction — not interactive.</p><UILanguagePreview palette={palette} bodyFont={bodyFont} headingFontWeight={result.headingFontWeight} bodyFontWeight={result.bodyFontWeight} headingLetterSpacing={result.headingLetterSpacing} bodyLetterSpacing={result.bodyLetterSpacing} /></section><div style={styles.bottomSpacer} /></main><div className="mosaic-fab" style={styles.fab}><button type="button" style={styles.fabSecondary} onClick={copyMoodboardData}><CopyIcon /> Copy moodboard data</button><button type="button" style={styles.fabSecondary} onClick={openRefine}><RefineIcon /> Refine moodboard</button><button type="button" style={styles.fabSecondary} onClick={onPreview}>Preview product UI</button><button type="button" style={styles.fabPrimary} onClick={() => setShareOpen(true)}><ShareIcon /> Share</button></div></>;
+  const lockButton = (label, key) => <button type="button" className="mosaik-focusable" style={styles.lockBtn} onClick={() => toggleLock(key)} aria-label={`${locks[key] ? "Unlock" : "Lock"} ${label}`}><LockIcon locked={locks[key]} /></button>;
+  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaik</div><div style={styles.navLinks}><button type="button" className="mosaik-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button></div></nav><main style={styles.main2}><button type="button" onClick={onBack} className="mosaik-link mosaik-focusable" style={styles.backLink}>← Back to project input</button><p style={styles.eyebrowResult}>Generated live from your input via Azure OpenAI — no data stored.</p><div style={styles.metaRow}><span style={styles.metaItem}><span style={styles.metaKey}>Project </span><span style={styles.metaVal}>{projectName}</span></span>{feelings.length > 0 && <><span style={styles.metaDivider} /><span style={styles.metaItem}><span style={styles.metaKey}>Inputs </span><span style={styles.metaVal}>{feelings.join(", ")}</span></span></>}</div><div className="mosaik-fade" style={styles.titleBlock}><h1 className="mosaik-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1><p style={styles.rationale}>{rationale}</p></div>
+  <section style={styles.section}><div style={styles.sectionHeadRow}><h2 style={styles.sectionHeading}>Imagery direction</h2><div style={styles.sectionActions}>{lockButton("imagery", "imageryLocked")}<button type="button" className="mosaik-focusable" style={styles.reshuffleBtn} onClick={handleReshuffleImagery} disabled={reshuffling}><ShuffleIcon /> {reshuffling ? "Reshuffling…" : "Reshuffle imagery"}</button></div></div><div className="mosaik-imagery-grid">{imageItems.slice(0, 4).map((img, index) => <ImgTile key={index} img={img} area={index === 0 ? "hero" : String.fromCharCode(96 + index)} />)}</div><div className="mosaik-support-row">{imageItems.slice(4, 6).map((img, index) => <ImgTile key={index + 4} img={img} tall />)}</div><p style={styles.imageryLabel}>{imageryLabel}</p></section>
+  <section style={styles.section}><h2 style={styles.sectionHeading}>Colour palette</h2><div className="mosaik-palette-grid">{palette.map((c) => { const role = c.role || c.name; const locked = !!locks.paletteLocks[role]; const busy = recolouring === role; return <div key={role} className="mosaik-swatch mosaik-focusable" role="button" tabIndex={0} onClick={() => copySwatch(c.hex)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copySwatch(c.hex); } }} style={{ ...styles.swatch, background: c.hex, color: getLuminance(c.hex) < .5 ? "#F4F0E8" : "#252A28" }}><span style={styles.swatchTop}><span style={styles.swatchName}>{role}</span><button type="button" className="mosaik-focusable" style={styles.lockBtn} onClick={(e) => { e.stopPropagation(); toggleLock("palette:" + role); }} aria-label={locked ? "Unlock " + role : "Lock " + role}><LockIcon locked={locked} /></button></span><span style={styles.swatchHex}>{c.hex.toUpperCase()}</span><div style={styles.swatchActions}><small>{copiedSwatch === c.hex ? "Copied!" : "Click to copy"}</small><button type="button" className="mosaik-focusable" style={styles.recolourBtn} disabled={locked || busy} onClick={(e) => { e.stopPropagation(); recolourSwatch(role); }}>{busy ? "Recolouring…" : "Recolour"}</button></div></div>; })}</div></section>
+  <section style={styles.section}><h2 style={styles.sectionHeading}>Type with warmth and clarity</h2><div className="mosaik-type-grid"><div className="mosaik-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Heading: {headingFont} · {copiedSwatch === headingFont ? "Copied!" : "Copy"}</p>{lockButton("heading font", "headingFontLocked")}</div><button type="button" className="mosaik-type-copy mosaik-focusable" onClick={() => copySwatch(headingFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSerif, fontFamily: "'" + headingFont + "', serif" }}>{headingSpecimen}</span><span style={styles.typeDescriptor}>Sets the tone for this direction</span></button></div><div className="mosaik-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Body: {bodyFont} · {copiedSwatch === bodyFont ? "Copied!" : "Copy"}</p>{lockButton("body font", "bodyFontLocked")}</div><button type="button" className="mosaik-type-copy mosaik-focusable" onClick={() => copySwatch(bodyFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSans, fontFamily: "'" + bodyFont + "', sans-serif" }}>{bodySpecimen}</span><span style={styles.typeDescriptor}>Clear, modern, highly readable</span></button></div></div></section>
+  <section style={styles.section}><h2 style={styles.sectionHeading}>Visual principles</h2><div className="mosaik-principles-grid">{principles.map((p, i) => <div key={i} style={styles.principleCard}><span style={styles.principleNumber}>{String(i + 1).padStart(2, "0")}</span><h3 style={styles.principleTitle}>{p.title}</h3><p style={styles.principleCopy}>{p.copy}</p></div>)}</div></section><section style={styles.section}><h2 style={styles.sectionHeading}>UI Language</h2><p style={styles.imageryLabel}>Live preview of buttons, inputs, and components in this direction — not interactive.</p><UILanguagePreview palette={palette} bodyFont={bodyFont} headingFontWeight={result.headingFontWeight} bodyFontWeight={result.bodyFontWeight} headingLetterSpacing={result.headingLetterSpacing} bodyLetterSpacing={result.bodyLetterSpacing} /></section><div style={styles.bottomSpacer} /></main><div className="mosaik-fab" style={styles.fab}><button type="button" style={styles.fabSecondary} onClick={copyMoodboardData}><CopyIcon /> Copy moodboard data</button><button type="button" style={styles.fabSecondary} onClick={openRefine}><RefineIcon /> Refine moodboard</button><button type="button" style={styles.fabSecondary} onClick={onPreview}>Preview product UI</button><button type="button" style={styles.fabPrimary} onClick={() => setShareOpen(true)}><ShareIcon /> Share</button></div></>;
 }
 function ImgTile({ img, area, tall }) {
-  const cls = area ? `mosaic-tile-${area}` : "mosaic-tile-support";
+  const cls = area ? `mosaik-tile-${area}` : "mosaik-tile-support";
   const [loaded, setLoaded] = useState(false);
   return (
     <div className={cls} style={{ ...styles.imgCard, ...(tall ? { height: "100%" } : {}) }}>
       {img?.url ? (
-        <><div className={`mosaic-image-skeleton${loaded ? " mosaic-image-skeleton-hidden" : ""}`} /><img src={img.url} alt={img.alt || ""} onLoad={() => setLoaded(true)} style={{ ...styles.imgTag, opacity: loaded ? 1 : 0, transition: "opacity .35s ease" }} loading="lazy" /></>
+        <><div className={`mosaik-image-skeleton${loaded ? " mosaik-image-skeleton-hidden" : ""}`} /><img src={img.url} alt={img.alt || ""} onLoad={() => setLoaded(true)} style={{ ...styles.imgTag, opacity: loaded ? 1 : 0, transition: "opacity .35s ease" }} loading="lazy" /></>
       ) : (
         <TextureFallback label={img?.query || img?.alt || "image"} />
       )}
@@ -343,7 +343,7 @@ function ProductPreview({ result, mode, setMode, onBack }) {
   const surface = color("Surface", "#F4F0E8");
   const textColor = color("Text", "#252A28");
   const items = preview.listItems || [];
-  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaic</div><div style={styles.navLinks}><button type="button" className="mosaic-focusable" style={styles.newMoodboardBtn} onClick={onBack}>Back to moodboard</button></div></nav><main style={styles.main2}><button type="button" className="mosaic-link mosaic-focusable" style={styles.backLink} onClick={onBack}>Back to moodboard</button><div style={styles.previewPageHeader}><div><p style={styles.eyebrowResult}>Product preview</p><h1 style={{...styles.previewPageTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.appName}</h1></div><div style={styles.segmentedControl}><button type="button" className="mosaic-focusable" style={mode === "desktop" ? styles.segmentActive : styles.segmentButton} onClick={() => setMode("desktop")}>Desktop</button><button type="button" className="mosaic-focusable" style={mode === "mobile" ? styles.segmentActive : styles.segmentButton} onClick={() => setMode("mobile")}>Mobile</button></div></div>{mode === "desktop" ? <div style={{...styles.dashboard,background:surface,color:textColor}}><aside style={styles.dashboardSidebar}><strong style={{fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.appName}</strong>{preview.navItems.map((item,index)=><span key={item} style={{...styles.dashboardNavItem,...(index===0?{background:`${accent}22`,color:accent}:{})}}>{item}</span>)}</aside><div style={styles.dashboardBody}><div style={styles.dashboardHeader}><div><span style={styles.dashboardKicker}>Workspace</span><h2 style={{...styles.dashboardTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.screenTitle}</h2></div><button type="button" style={{...styles.previewPrimary,background:accent}} tabIndex={-1}>{preview.primaryCta}</button></div><div style={styles.dashboardMetrics}><div style={{...styles.dashboardMetric,background:`${accent}20`}}><small>{preview.primaryMetric?.label}</small><strong>{preview.primaryMetric?.value}</strong></div>{(preview.secondaryMetrics || []).map((metric)=><div key={metric.label} style={{...styles.dashboardMetric,background:"rgba(255,255,255,.55)"}}><small>{metric.label}</small><strong>{metric.value}</strong></div>)}</div><div style={styles.dashboardList}><h3>Recent activity</h3>{items.map((item)=><div key={item.title} style={styles.dashboardRow}><span style={{...styles.dashboardRowDot,background:accent}}/><div><strong>{item.title}</strong><small>{item.subtitle}</small></div></div>)}</div></div></div> : <div style={styles.mobileStage}><div style={{...styles.phonePreview,border:`8px solid ${textColor}`,background:surface,color:textColor}}><div style={{...styles.phoneNotch,background:textColor}}/><span style={styles.dashboardKicker}>{preview.appName}</span><h2 style={{...styles.mobileTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.screenTitle}</h2><div style={{...styles.mobileMetric,background:`${accent}20`}}><small>{preview.primaryMetric?.label}</small><strong>{preview.primaryMetric?.value}</strong></div><div style={styles.mobileList}>{items.map((item)=><div key={item.title} style={styles.mobileRow}><strong>{item.title}</strong><small>{item.subtitle}</small></div>)}</div><button type="button" style={{...styles.previewPrimary,background:accent,width:"100%"}} tabIndex={-1}>{preview.primaryCta}</button></div></div>}</main></>;
+  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaik</div><div style={styles.navLinks}><button type="button" className="mosaik-focusable" style={styles.newMoodboardBtn} onClick={onBack}>Back to moodboard</button></div></nav><main style={styles.main2}><button type="button" className="mosaik-link mosaik-focusable" style={styles.backLink} onClick={onBack}>Back to moodboard</button><div style={styles.previewPageHeader}><div><p style={styles.eyebrowResult}>Product preview</p><h1 style={{...styles.previewPageTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.appName}</h1></div><div style={styles.segmentedControl}><button type="button" className="mosaik-focusable" style={mode === "desktop" ? styles.segmentActive : styles.segmentButton} onClick={() => setMode("desktop")}>Desktop</button><button type="button" className="mosaik-focusable" style={mode === "mobile" ? styles.segmentActive : styles.segmentButton} onClick={() => setMode("mobile")}>Mobile</button></div></div>{mode === "desktop" ? <div style={{...styles.dashboard,background:surface,color:textColor}}><aside style={styles.dashboardSidebar}><strong style={{fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.appName}</strong>{preview.navItems.map((item,index)=><span key={item} style={{...styles.dashboardNavItem,...(index===0?{background:`${accent}22`,color:accent}:{})}}>{item}</span>)}</aside><div style={styles.dashboardBody}><div style={styles.dashboardHeader}><div><span style={styles.dashboardKicker}>Workspace</span><h2 style={{...styles.dashboardTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.screenTitle}</h2></div><button type="button" style={{...styles.previewPrimary,background:accent}} tabIndex={-1}>{preview.primaryCta}</button></div><div style={styles.dashboardMetrics}><div style={{...styles.dashboardMetric,background:`${accent}20`}}><small>{preview.primaryMetric?.label}</small><strong>{preview.primaryMetric?.value}</strong></div>{(preview.secondaryMetrics || []).map((metric)=><div key={metric.label} style={{...styles.dashboardMetric,background:"rgba(255,255,255,.55)"}}><small>{metric.label}</small><strong>{metric.value}</strong></div>)}</div><div style={styles.dashboardList}><h3>Recent activity</h3>{items.map((item)=><div key={item.title} style={styles.dashboardRow}><span style={{...styles.dashboardRowDot,background:accent}}/><div><strong>{item.title}</strong><small>{item.subtitle}</small></div></div>)}</div></div></div> : <div style={styles.mobileStage}><div style={{...styles.phonePreview,border:`8px solid ${textColor}`,background:surface,color:textColor}}><div style={{...styles.phoneNotch,background:textColor}}/><span style={styles.dashboardKicker}>{preview.appName}</span><h2 style={{...styles.mobileTitle,fontFamily:`'${result.headingFont || "DM Serif Display"}', serif`}}>{preview.screenTitle}</h2><div style={{...styles.mobileMetric,background:`${accent}20`}}><small>{preview.primaryMetric?.label}</small><strong>{preview.primaryMetric?.value}</strong></div><div style={styles.mobileList}>{items.map((item)=><div key={item.title} style={styles.mobileRow}><strong>{item.title}</strong><small>{item.subtitle}</small></div>)}</div><button type="button" style={{...styles.previewPrimary,background:accent,width:"100%"}} tabIndex={-1}>{preview.primaryCta}</button></div></div>}</main></>;
 }
 
 function getLuminance(hex) {
@@ -361,24 +361,24 @@ function getLuminance(hex) {
 /* -------------- modals -------------- */
 function RefineModal({ selectedRefineChip, setSelectedRefineChip, regenerating, regenerate, onClose }) {
   return (
-    <div className="mosaic-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
-      <div className="mosaic-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
+    <div className="mosaik-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
+      <div className="mosaik-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalHeader}>
           <p style={styles.modalLabel}>What should change?</p>
-          <button type="button" aria-label="Close" className="mosaic-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
+          <button type="button" aria-label="Close" className="mosaik-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
         </div>
         <div style={styles.refineChipRow}>
           {REFINE_CHIPS.map((chip) => {
             const selected = selectedRefineChip === chip;
             return (
-              <button type="button" key={chip} className="mosaic-chip-btn mosaic-focusable" onClick={() => setSelectedRefineChip(chip)}
+              <button type="button" key={chip} className="mosaik-chip-btn mosaik-focusable" onClick={() => setSelectedRefineChip(chip)}
                 style={{ ...styles.refineChip, ...(selected ? styles.refineChipSelected : {}) }}>
                 {chip}
               </button>
             );
           })}
         </div>
-        <button type="button" className="mosaic-focusable"
+        <button type="button" className="mosaik-focusable"
           style={{ ...styles.regenerateBtn, ...(selectedRefineChip && !regenerating ? {} : styles.regenerateBtnDisabled) }}
           disabled={!selectedRefineChip || regenerating} onClick={regenerate}>
           {regenerating ? "Regenerating\u2026" : "Regenerate moodboard"}
@@ -391,15 +391,15 @@ function RefineModal({ selectedRefineChip, setSelectedRefineChip, regenerating, 
 function ShareModal({ projectName, title, linkCopied, copyLink, onClose }) {
   const slug = `${(projectName || "project").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(title || "direction").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return (
-    <div className="mosaic-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
-      <div className="mosaic-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
+    <div className="mosaik-modal-backdrop" style={styles.modalBackdrop} onClick={onClose}>
+      <div className="mosaik-modal-panel" style={styles.modalPanel} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalHeader}>
           <p style={styles.modalTitleShare}>Moodboard ready to share</p>
-          <button type="button" aria-label="Close" className="mosaic-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
+          <button type="button" aria-label="Close" className="mosaik-focusable" style={styles.modalClose} onClick={onClose}><CloseIcon /></button>
         </div>
         <div style={styles.shareUrlRow}>
-          <span style={styles.shareUrl}>mosaic.design/m/{slug}</span>
-          <button type="button" className="mosaic-focusable" style={styles.copyLinkBtn} onClick={copyLink}>
+          <span style={styles.shareUrl}>mosaik.design/m/{slug}</span>
+          <button type="button" className="mosaik-focusable" style={styles.copyLinkBtn} onClick={copyLink}>
             {linkCopied ? <CheckIcon /> : <CopyIcon />} {linkCopied ? "Copied" : "Copy link"}
           </button>
         </div>
@@ -416,61 +416,61 @@ function GlobalStyle() {
       * { box-sizing: border-box; }
       :root { --dynamic-ease: cubic-bezier(0.2, 0.8, 0.2, 1); }
       body { margin: 0; }
-      .mosaic-root { font-family: 'Inter', -apple-system, sans-serif; }
-      .mosaic-focusable:focus-visible { outline: 2px solid #7C8D74; outline-offset: 2px; }
+      .mosaik-root { font-family: 'Inter', -apple-system, sans-serif; }
+      .mosaik-focusable:focus-visible { outline: 2px solid #7C8D74; outline-offset: 2px; }
 
-      .mosaic-nav-link, .mosaic-link { position: relative; text-decoration: none; }
-      .mosaic-nav-link::after, .mosaic-link::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 0%; height: 1px; background: currentColor; transition: width 0.2s ease; }
-      .mosaic-nav-link:hover::after, .mosaic-link:hover::after { width: 100%; }
+      .mosaik-nav-link, .mosaik-link { position: relative; text-decoration: none; }
+      .mosaik-nav-link::after, .mosaik-link::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 0%; height: 1px; background: currentColor; transition: width 0.2s ease; }
+      .mosaik-nav-link:hover::after, .mosaik-link:hover::after { width: 100%; }
 
-      textarea.mosaic-textarea:focus { outline: none; border-color: #97A98D; box-shadow: 0 0 0 3px rgba(124,141,116,0.16); }
+      textarea.mosaik-textarea:focus { outline: none; border-color: #97A98D; box-shadow: 0 0 0 3px rgba(124,141,116,0.16); }
 
-      button, input, textarea, .mosaic-chip, .mosaic-chip-btn { transition-timing-function: var(--dynamic-ease); }
-      .mosaic-chip, .mosaic-chip-btn { transition: background 0.15s, border-color 0.15s, color 0.15s; }
-      .mosaic-primary-btn { transition: transform 0.15s, box-shadow 0.15s; transition-timing-function: var(--dynamic-ease); }
-      .mosaic-primary-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(58,56,53,0.18); }
+      button, input, textarea, .mosaik-chip, .mosaik-chip-btn { transition-timing-function: var(--dynamic-ease); }
+      .mosaik-chip, .mosaik-chip-btn { transition: background 0.15s, border-color 0.15s, color 0.15s; }
+      .mosaik-primary-btn { transition: transform 0.15s, box-shadow 0.15s; transition-timing-function: var(--dynamic-ease); }
+      .mosaik-primary-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(58,56,53,0.18); }
 
-      .mosaic-swatch { transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: pointer; }
-      .mosaic-swatch:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -16px rgba(37,42,40,0.35); }
-      .mosaic-image-source { position: absolute; right: 10px; bottom: 10px; padding: 4px 7px; border-radius: 999px; background: rgba(20,22,20,0.72); color: #fff; font-size: 10px; opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
-      .mosaic-image-skeleton { position: absolute; inset: 0; background: linear-gradient(110deg, #e8e3d8 8%, #f7f3eb 18%, #e8e3d8 33%); background-size: 200% 100%; animation: mosaicSkeleton 1.2s linear infinite; }
-      .mosaic-image-skeleton-hidden { opacity: 0; pointer-events: none; }
-      @keyframes mosaicSkeleton { to { background-position-x: -200%; } }
-      .mosaic-tile-hero, .mosaic-tile-a, .mosaic-tile-b, .mosaic-tile-c, .mosaic-tile-support { position: relative; }
-      .mosaic-tile-hero:hover .mosaic-image-source, .mosaic-tile-a:hover .mosaic-image-source, .mosaic-tile-b:hover .mosaic-image-source, .mosaic-tile-c:hover .mosaic-image-source, .mosaic-tile-support:hover .mosaic-image-source { opacity: 1; transform: translateY(0); }
-      .mosaic-card-hover { transition: transform 0.18s, box-shadow 0.18s; transition-timing-function: var(--dynamic-ease); }
-      .mosaic-card-hover:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -20px rgba(37,42,40,0.3); }
-      .mosaic-fab-btn { transition: transform 0.15s ease, background 0.15s ease; }
-      .mosaic-fab-btn:hover { transform: translateY(-1px); }
+      .mosaik-swatch { transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: pointer; }
+      .mosaik-swatch:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -16px rgba(37,42,40,0.35); }
+      .mosaik-image-source { position: absolute; right: 10px; bottom: 10px; padding: 4px 7px; border-radius: 999px; background: rgba(20,22,20,0.72); color: #fff; font-size: 10px; opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+      .mosaik-image-skeleton { position: absolute; inset: 0; background: linear-gradient(110deg, #e8e3d8 8%, #f7f3eb 18%, #e8e3d8 33%); background-size: 200% 100%; animation: mosaikSkeleton 1.2s linear infinite; }
+      .mosaik-image-skeleton-hidden { opacity: 0; pointer-events: none; }
+      @keyframes mosaikSkeleton { to { background-position-x: -200%; } }
+      .mosaik-tile-hero, .mosaik-tile-a, .mosaik-tile-b, .mosaik-tile-c, .mosaik-tile-support { position: relative; }
+      .mosaik-tile-hero:hover .mosaik-image-source, .mosaik-tile-a:hover .mosaik-image-source, .mosaik-tile-b:hover .mosaik-image-source, .mosaik-tile-c:hover .mosaik-image-source, .mosaik-tile-support:hover .mosaik-image-source { opacity: 1; transform: translateY(0); }
+      .mosaik-card-hover { transition: transform 0.18s, box-shadow 0.18s; transition-timing-function: var(--dynamic-ease); }
+      .mosaik-card-hover:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -20px rgba(37,42,40,0.3); }
+      .mosaik-fab-btn { transition: transform 0.15s ease, background 0.15s ease; }
+      .mosaik-fab-btn:hover { transform: translateY(-1px); }
 
-      .mosaic-fade-in, .mosaic-chip-in { animation: mosaicChipIn 0.35s ease both; }
-      @keyframes mosaicChipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-      .mosaic-fade { animation: mosaicFade 0.35s ease both; }
-      @keyframes mosaicFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-      .mosaic-dot { animation: mosaicPulse 1.1s ease-in-out infinite; }
-      .mosaic-dot:nth-child(2) { animation-delay: 0.15s; }
-      .mosaic-dot:nth-child(3) { animation-delay: 0.3s; }
-      @keyframes mosaicPulse { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
-      .mosaic-toast { animation: mosaicToastIn 0.3s ease both; }
-      @keyframes mosaicToastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
-      .mosaic-modal-backdrop { animation: mosaicBackdropIn 0.2s ease both; }
-      @keyframes mosaicBackdropIn { from { opacity: 0; } to { opacity: 1; } }
-      .mosaic-modal-panel { animation: mosaicPanelIn 0.28s ease both; }
-      @keyframes mosaicPanelIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      .mosaik-fade-in, .mosaik-chip-in { animation: mosaikChipIn 0.35s ease both; }
+      @keyframes mosaikChipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+      .mosaik-fade { animation: mosaikFade 0.35s ease both; }
+      @keyframes mosaikFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+      .mosaik-dot { animation: mosaikPulse 1.1s ease-in-out infinite; }
+      .mosaik-dot:nth-child(2) { animation-delay: 0.15s; }
+      .mosaik-dot:nth-child(3) { animation-delay: 0.3s; }
+      @keyframes mosaikPulse { 0%, 80%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+      .mosaik-toast { animation: mosaikToastIn 0.3s ease both; }
+      @keyframes mosaikToastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+      .mosaik-modal-backdrop { animation: mosaikBackdropIn 0.2s ease both; }
+      @keyframes mosaikBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+      .mosaik-modal-panel { animation: mosaikPanelIn 0.28s ease both; }
+      @keyframes mosaikPanelIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
       @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
-      .mosaic-imagery-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: 210px 210px; gap: 14px; }
-      .mosaic-tile-hero { grid-column: 1; grid-row: 1 / 3; }
-      .mosaic-tile-a { grid-column: 2; grid-row: 1; }
-      .mosaic-tile-b { grid-column: 3; grid-row: 1; }
-      .mosaic-tile-c { grid-column: 2 / 4; grid-row: 2; }
-      .mosaic-support-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; height: 220px; }
+      .mosaik-imagery-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: 210px 210px; gap: 14px; }
+      .mosaik-tile-hero { grid-column: 1; grid-row: 1 / 3; }
+      .mosaik-tile-a { grid-column: 2; grid-row: 1; }
+      .mosaik-tile-b { grid-column: 3; grid-row: 1; }
+      .mosaik-tile-c { grid-column: 2 / 4; grid-row: 2; }
+      .mosaik-support-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; height: 220px; }
 
-      .mosaic-palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-      .mosaic-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-      .mosaic-principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      .mosaic-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .mosaik-palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      .mosaik-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+      .mosaik-principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .mosaik-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
       .ui-language-labels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
       .ui-language-labels div { display: flex; flex-direction: column; gap: 5px; }
       .ui-language-labels b { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #7C8D74; }
@@ -487,16 +487,16 @@ function GlobalStyle() {
 
 
       @media (max-width: 860px) {
-        .mosaic-nav-links a { display: none; }
-        .mosaic-heading, .mosaic-title { font-size: 34px !important; }
-        .mosaic-imagery-grid { grid-template-columns: 1fr; grid-template-rows: none; }
-        .mosaic-tile-hero, .mosaic-tile-a, .mosaic-tile-b, .mosaic-tile-c { grid-column: auto; grid-row: auto; height: 220px; }
-        .mosaic-support-row { grid-template-columns: 1fr; height: auto; }
-        .mosaic-support-row > div { height: 200px; }
-        .mosaic-palette-grid { grid-template-columns: repeat(2, 1fr); }
-        .mosaic-type-grid { grid-template-columns: 1fr; }
-        .mosaic-principles-grid { grid-template-columns: 1fr; }
-        .mosaic-ui-grid { grid-template-columns: 1fr; }
+        .mosaik-nav-links a { display: none; }
+        .mosaik-heading, .mosaik-title { font-size: 34px !important; }
+        .mosaik-imagery-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+        .mosaik-tile-hero, .mosaik-tile-a, .mosaik-tile-b, .mosaik-tile-c { grid-column: auto; grid-row: auto; height: 220px; }
+        .mosaik-support-row { grid-template-columns: 1fr; height: auto; }
+        .mosaik-support-row > div { height: 200px; }
+        .mosaik-palette-grid { grid-template-columns: repeat(2, 1fr); }
+        .mosaik-type-grid { grid-template-columns: 1fr; }
+        .mosaik-principles-grid { grid-template-columns: 1fr; }
+        .mosaik-ui-grid { grid-template-columns: 1fr; }
         .ui-language-grid { grid-template-columns: 1fr; }
         .previewPageHeader { align-items: flex-start; flex-direction: column; }
         .dashboard { min-height: 0 !important; }
@@ -504,7 +504,7 @@ function GlobalStyle() {
         .dashboardBody { padding: 20px !important; }
         .dashboardHeader { flex-direction: column; gap: 16px; }
         .dashboardMetrics { flex-wrap: wrap; }
-        .mosaic-fab { position: static !important; margin: 40px auto 0 !important; justify-content: center !important; flex-wrap: wrap; }
+        .mosaik-fab { position: static !important; margin: 40px auto 0 !important; justify-content: center !important; flex-wrap: wrap; }
       }
     `}</style>
   );

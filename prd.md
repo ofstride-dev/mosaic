@@ -1,4 +1,4 @@
-# Mosaic — PRD & Cline Build Prompt (v3)
+# Mosaik — PRD & Cline Build Prompt (v3)
 
 ## 1. What's new in this version
 
