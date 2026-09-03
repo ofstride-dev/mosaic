@@ -1,12 +1,5 @@
-import 'dotenv/config';
-import express from 'express';
-
-const app = express();
-const port = Number(process.env.PORT || 8787);
 const paletteRoles = ['Background', 'Surface', 'Accent', 'Text'];
 const colorAccessibilityInstruction = 'CRITICAL COLOR ACCESSIBILITY INSTRUCTION: Strictly follow WCAG AA accessibility standards with a minimum 4.5:1 contrast ratio for all UI elements. Rule of opposites: if Background or Surface is dark, Text, Input Borders, and Icons MUST be extremely light or near-white; if Background is light, Text and Controls MUST be near-black. Never use medium-grey UI text on dark backgrounds. Accent colors used for buttons or badges must contrast strongly against Background, and text inside badges/buttons must contrast strongly against Accent.';
-
-app.use(express.json({ limit: '8mb' }));
 
 function stripFences(value) {
   return String(value).replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
@@ -192,32 +185,4 @@ async function generate(body, refinementText = '') {
   return direction;
 }
 
-app.post('/api/generateMoodboard', async (req, res) => {
-  try { res.json(await generate(req.body)); } catch (error) { res.status(502).json({ error: error.message }); }
-});
-
-app.post('/api/refineMoodboard', async (req, res) => {
-  try {
-    const { currentResult, locks = {}, refinementText = '', ...brief } = req.body;
-    if (!currentResult) throw new Error('currentResult is required.');
-    const lockInstruction = `CURRENT RESULT:\n${JSON.stringify(currentResult)}\nLOCKS:\n${JSON.stringify(locks)}\nReturn locked fields byte-identical to CURRENT RESULT and regenerate only unlocked fields. ${refinementText}`;
-    const direction = unwrapDirection(await generate(brief, lockInstruction));
-    if (locks.imageryLocked) direction.images = currentResult.images;
-    console.log('/api/refineMoodboard response:', JSON.stringify(direction));
-    return res.status(200).json(direction);
-  } catch (error) { return res.status(502).json({ error: error.message }); }
-});
-
-app.post('/api/recolorSwatch', async (req, res) => {
-  try {
-    const { currentResult, role } = req.body;
-    if (!currentResult || !paletteRoles.includes(role)) throw new Error('currentResult and a valid palette role are required.');
-    const prompt = `Current moodboard:\n${JSON.stringify(currentResult)}\nCRITICAL COLOR ACCESSIBILITY INSTRUCTION: Maintain WCAG AA accessibility standards with a minimum 4.5:1 contrast ratio for all UI elements. Follow the rule of opposites: dark Background or Surface requires extremely light Text, Input Borders, and Icons; light Background requires near-black Text and Controls. Never use medium-grey UI text on dark backgrounds. If replacing Accent, it must contrast strongly against Background and badge/button text must contrast strongly against Accent. Return ONLY {"hex":"#RRGGBB"}. Choose a harmonious replacement for the ${role} palette color; keep the other three unchanged and preserve their accessibility relationships.`;
-    const value = await callAzureJson(prompt, (candidate) => isHex(candidate?.hex));
-    const responseBody = { hex: value.hex.toUpperCase() };
-    console.log('/api/recolorSwatch response:', JSON.stringify(responseBody));
-    res.status(200).json(responseBody);
-  } catch (error) { res.status(502).json({ error: error.message }); }
-});
-
-app.listen(port, () => console.log(`Mosaic API listening on http://localhost:${port}`));
+export { generate, unwrapDirection, callAzureJson, isHex, paletteRoles };
