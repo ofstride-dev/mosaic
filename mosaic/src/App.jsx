@@ -9,7 +9,6 @@ const LUMA_FILES = [
   { name: "Visual_References.jpg", type: "img" },
 ];
 
-const PRESET_CHIPS = ["Calm", "Bold", "Playful", "Minimal", "Premium", "Energetic", "Warm", "Grounded", "Precise"];
 const LUMA_CHIPS = ["Calm", "Grounded", "Premium", "Minimal"];
 
 const REFINE_CHIPS = ["More energetic", "More minimal", "More premium", "Less organic", "More playful"];
@@ -142,7 +141,7 @@ export default function MosaikApp() {
 function InputScreen({
   text, setText, files, removeFile,
   fileInputRef, triggerFilePicker, handleFilesSelected,
-    selectedChips, toggleChip, customChips, keywordInput, setKeywordInput, addCustomChip, removeCustomChip,
+    customChips, keywordInput, setKeywordInput, addCustomChip, removeCustomChip,
   handleTrySample, canGenerate, status, loadingStep, handleGenerate, errorMsg, showPresetLibraryToast,
 }) {
   return (
@@ -212,7 +211,6 @@ function InputScreen({
 
               <div style={styles.feelSection}>
                 <label htmlFor="mosaik-keyword-input" style={styles.feelLabel}>Anything it should feel like?</label>
-                <div style={styles.chipRow}>{PRESET_CHIPS.map((chip) => <button type="button" key={chip} className="mosaik-chip mosaik-focusable" onClick={() => toggleChip(chip)} style={{ ...styles.feelChip, ...(selectedChips.includes(chip) ? styles.feelChipSelected : {}) }}>{chip}</button>)}</div>
                 <div style={styles.keywordInputRow}>
                   <input
                     id="mosaik-keyword-input"
@@ -288,7 +286,7 @@ function ResultScreen({ result, textureSeeds, onBack, onNew, copiedSwatch, copyS
   const [imageItems] = useState(combinedImages);
   if (!result) return null;
   const lockButton = (label, key) => <button type="button" className="mosaik-focusable" style={styles.lockBtn} onClick={() => toggleLock(key)} aria-label={`${locks[key] ? "Unlock" : "Lock"} ${label}`}><LockIcon locked={locks[key]} /></button>;
-  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaik</div><div style={styles.navLinks}><button type="button" className="mosaik-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button></div></nav><main style={styles.main2}><button type="button" onClick={onBack} className="mosaik-link mosaik-focusable" style={styles.backLink}>← Back to project input</button><p style={styles.eyebrowResult}>Generated live from your input via Azure OpenAI — no data stored.</p><div style={styles.metaRow}><span style={styles.metaItem}><span style={styles.metaKey}>Project </span><span style={styles.metaVal}>{projectName}</span></span>{feelings.length > 0 && <><span style={styles.metaDivider} /><span style={styles.metaItem}><span style={styles.metaKey}>Inputs </span><span style={styles.metaVal}>{feelings.join(", ")}</span></span></>}</div><div className="mosaik-fade" style={styles.titleBlock}><h1 className="mosaik-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1><p style={styles.rationale}>{rationale}</p></div>
+  return <><nav style={styles.nav}><div style={styles.wordmark}>Mosaik</div><div style={styles.navLinks}><button type="button" className="mosaik-focusable" style={styles.newMoodboardBtn} onClick={onNew}>New moodboard</button></div></nav><main style={styles.main2}><button type="button" onClick={onBack} className="mosaik-link mosaik-focusable" style={styles.backLink}>← Back to project input</button><div style={styles.metaRow}><span style={styles.metaItem}><span style={styles.metaKey}>Project </span><span style={styles.metaVal}>{projectName}</span></span>{feelings.length > 0 && <><span style={styles.metaDivider} /><span style={styles.metaItem}><span style={styles.metaKey}>Inputs </span><span style={styles.metaVal}>{feelings.join(", ")}</span></span></>}</div><div className="mosaik-fade" style={styles.titleBlock}><h1 className="mosaik-title" style={{ ...styles.title, fontFamily: `'${headingFont}', 'DM Serif Display', serif` }}>{title}</h1><p style={styles.rationale}>{rationale}</p></div>
   <section style={styles.section}><div style={styles.sectionHeadRow}><h2 style={styles.sectionHeading}>Imagery direction</h2><div style={styles.sectionActions}>{lockButton("imagery", "imageryLocked")}<button type="button" className="mosaik-focusable" style={styles.reshuffleBtn} onClick={handleReshuffleImagery} disabled={reshuffling}><ShuffleIcon /> {reshuffling ? "Reshuffling…" : "Reshuffle imagery"}</button></div></div><div className="mosaik-imagery-grid">{imageItems.slice(0, 4).map((img, index) => <ImgTile key={index} img={img} area={index === 0 ? "hero" : String.fromCharCode(96 + index)} />)}</div><div className="mosaik-support-row">{imageItems.slice(4, 6).map((img, index) => <ImgTile key={index + 4} img={img} tall />)}</div><p style={styles.imageryLabel}>{imageryLabel}</p></section>
   <section style={styles.section}><h2 style={styles.sectionHeading}>Colour palette</h2><div className="mosaik-palette-grid">{palette.map((c) => { const role = c.role || c.name; const locked = !!locks.paletteLocks[role]; const busy = recolouring === role; return <div key={role} className="mosaik-swatch mosaik-focusable" role="button" tabIndex={0} onClick={() => copySwatch(c.hex)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copySwatch(c.hex); } }} style={{ ...styles.swatch, background: c.hex, color: getLuminance(c.hex) < .5 ? "#F4F0E8" : "#252A28" }}><span style={styles.swatchTop}><span style={styles.swatchName}>{role}</span><button type="button" className="mosaik-focusable" style={styles.lockBtn} onClick={(e) => { e.stopPropagation(); toggleLock("palette:" + role); }} aria-label={locked ? "Unlock " + role : "Lock " + role}><LockIcon locked={locked} /></button></span><span style={styles.swatchHex}>{c.hex.toUpperCase()}</span><div style={styles.swatchActions}><small>{copiedSwatch === c.hex ? "Copied!" : "Click to copy"}</small><button type="button" className="mosaik-focusable" style={styles.recolourBtn} disabled={locked || busy} onClick={(e) => { e.stopPropagation(); recolourSwatch(role); }}>{busy ? "Recolouring…" : "Recolour"}</button></div></div>; })}</div></section>
   <section style={styles.section}><h2 style={styles.sectionHeading}>Type with warmth and clarity</h2><div className="mosaik-type-grid"><div className="mosaik-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Heading: {headingFont} · {copiedSwatch === headingFont ? "Copied!" : "Copy"}</p>{lockButton("heading font", "headingFontLocked")}</div><button type="button" className="mosaik-type-copy mosaik-focusable" onClick={() => copySwatch(headingFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSerif, fontFamily: "'" + headingFont + "', serif" }}>{headingSpecimen}</span><span style={styles.typeDescriptor}>Sets the tone for this direction</span></button></div><div className="mosaik-type-card-copy" style={styles.typeCard}><div style={styles.typeCardHead}><p style={styles.typeFontLabel}>Body: {bodyFont} · {copiedSwatch === bodyFont ? "Copied!" : "Copy"}</p>{lockButton("body font", "bodyFontLocked")}</div><button type="button" className="mosaik-type-copy mosaik-focusable" onClick={() => copySwatch(bodyFont)} style={styles.typeSpecimenButton}><span style={{ ...styles.typeSpecimenSans, fontFamily: "'" + bodyFont + "', sans-serif" }}>{bodySpecimen}</span><span style={styles.typeDescriptor}>Clear, modern, highly readable</span></button></div></div></section>
@@ -556,7 +554,7 @@ const styles = {
   keywordInput: { flex: 1, fontFamily: "'Inter', sans-serif", fontSize: 13.5, color: COLORS.charcoal, background: "#FBFAF6", border: `1px solid ${COLORS.hairline}`, borderRadius: 10, padding: "10px 14px" },
   keywordAddBtn: { fontWeight: 600, color: COLORS.charcoal, background: "#FBFAF6", border: `1px solid ${COLORS.hairline}`, borderRadius: 10, padding: "12px 19px", fontSize: 14.5, cursor: "pointer" },
   customChip: { display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 500, color: "#7A4B34", background: COLORS.claySoft, border: "1px solid #E3C7B4", borderRadius: 999, padding: "7px 8px 7px 14px" },
-  customChipRemove: { display: "flex", alignItems: "center", justifyContent: "center", width: 16, height: 16, border: "none", background: "transparent", color: "#7A4B34", cursor: "pointer", opacity: 0.8 },
+  customChipRemove: { display: "flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, border: "none", background: "transparent", color: "#7A4B34", cursor: "pointer", borderRadius: 999, opacity: 0.9 },
   errorText: { fontSize: 13, color: "#A14A3A", background: "#FBEAE4", border: "1px solid #EFC9BC", borderRadius: 10, padding: "10px 14px", marginTop: 20 },
   actionsRow: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 30 },
   tryLumaBtn: { background: "none", border: "none", padding: 0, fontSize: 13.5, fontWeight: 500, color: COLORS.sage, textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer" },
@@ -568,14 +566,14 @@ const styles = {
   loadingText: { fontSize: 14.5, color: COLORS.charcoalSoft, fontWeight: 500, margin: 0 },
 
   backLink: { display: "inline-block", fontSize: 13.5, fontWeight: 500, color: COLORS.charcoalSoft, marginBottom: 22, background: "none", border: "none", cursor: "pointer", padding: 0 },
-  eyebrowResult: { fontSize: 12.5, color: COLORS.sage, fontWeight: 500, margin: "0 0 18px" },
+  eyebrowResult: { fontSize: 12.5, color: COLORS.sage, fontWeight: 500, margin: "0 0 18px", textAlign: "left" },
   metaRow: { display: "flex", alignItems: "center", gap: 14, marginBottom: 22, flexWrap: "wrap" },
   metaItem: { fontSize: 13 },
   metaKey: { color: COLORS.charcoalSoft, opacity: 0.75 },
   metaVal: { color: COLORS.charcoal, fontWeight: 500 },
   metaDivider: { width: 1, height: 12, background: COLORS.hairline },
-  titleBlock: { marginBottom: 56, maxWidth: 640 },
-  title: { fontWeight: 400, fontSize: 56, lineHeight: 1.08, margin: "0 0 18px", color: COLORS.charcoal },
+  titleBlock: { marginBottom: 56, maxWidth: 640, textAlign: "left" },
+  title: { fontWeight: 400, fontSize: 56, lineHeight: 1.08, margin: "0 0 18px", color: COLORS.charcoal, textAlign: "left" },
   previewPageHeader: { display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 30 },
   previewPageTitle: { fontSize: 44, fontWeight: 400, margin: "4px 0 0", color: COLORS.charcoal },
   segmentedControl: { display: "flex", padding: 4, gap: 3, borderRadius: 12, background: "#EAE5DA" },
@@ -590,7 +588,7 @@ const styles = {
    dashboardList: { background: "rgba(255,255,255,.44)", padding: 20, borderRadius: 14 }, dashboardRow: { display: "flex", alignItems: "center", gap: 12, padding: "14px 0", borderTop: `1px solid ${COLORS.hairline}` }, dashboardRowDot: { width: 8, height: 8, borderRadius: "50%" },
   mobileStage: { display: "flex", justifyContent: "center", padding: "10px 0 40px" }, phonePreview: { width: 340, minHeight: 610, border: "8px solid", borderRadius: 34, padding: "34px 22px 22px", boxShadow: "0 24px 60px -28px rgba(37,42,40,.45)", display: "flex", flexDirection: "column" }, phoneNotch: { width: 70, height: 5, borderRadius: 5, margin: "-20px auto 28px" }, mobileTitle: { fontSize: 28, fontWeight: 400, margin: "8px 0 22px" }, mobileMetric: { padding: 18, borderRadius: 14, display: "flex", flexDirection: "column", gap: 8 }, mobileList: { flex: 1, margin: "18px 0" }, mobileRow: { display: "flex", flexDirection: "column", gap: 4, padding: "14px 0", borderBottom: `1px solid ${COLORS.hairline}`, fontSize: 13 },
   rationale: { fontSize: 17, lineHeight: 1.6, color: COLORS.charcoalSoft, margin: 0 },
-  section: { marginBottom: 64 },
+  section: { marginBottom: 80 },
   sectionHeadRow: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22 }, sectionActions: { display: "flex", alignItems: "center", gap: 8 },
   sectionHeading: { fontFamily: "'DM Serif Display', serif", fontWeight: 400, fontSize: 26, margin: 0, color: COLORS.charcoal },
   reshuffleBtn: { display: "inline-flex", alignItems: "center", gap: 7, fontWeight: 500, color: COLORS.charcoal, background: "#FBFAF6", border: `1px solid ${COLORS.hairline}`, borderRadius: 999, padding: "10px 17px", fontSize: 14.5, cursor: "pointer" },
