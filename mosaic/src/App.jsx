@@ -469,7 +469,7 @@ function GlobalStyle() {
       .mosaik-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
       .mosaik-principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
       .mosaik-ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-      .mosaik-palette-grid, .mosaik-type-grid, .mosaik-principles-grid, .mosaik-ui-grid { margin-top: 30px; }
+      .mosaik-palette-grid, .mosaik-type-grid, .mosaik-principles-grid, .mosaik-ui-grid { margin-top: 64px !important; }
       .ui-language-labels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
       .ui-language-labels div { display: flex; flex-direction: column; gap: 5px; }
       .ui-language-labels b { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #7C8D74; }
